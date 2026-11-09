@@ -1,0 +1,14 @@
+# Dependency directories
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Compiled outputs
+dist/
+*.tsbuildinfo
+
+# Prisma generated client / engines
+prisma/migrations/*_migration.sql.backup
