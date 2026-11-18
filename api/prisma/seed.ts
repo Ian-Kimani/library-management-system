@@ -1,4 +1,5 @@
 import { PrismaClient, Role } from '@prisma/client';
+import * as bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -11,11 +12,14 @@ async function main() {
   await prisma.genre.deleteMany();
   await prisma.user.deleteMany();
 
-  // 1. Seed Users (with Role enum)
+  // 1. Seed Users (with Role enum and hashed password)
   console.log('👤 Seeding Users...');
+  const defaultPassword = await bcrypt.hash('Password123!', 10);
+
   const patron = await prisma.user.create({
     data: {
       email: 'patron@library.org',
+      password: defaultPassword,
       name: 'Jane Patron',
       role: Role.PATRON,
     },
@@ -24,6 +28,7 @@ async function main() {
   const librarian = await prisma.user.create({
     data: {
       email: 'librarian@library.org',
+      password: defaultPassword,
       name: 'John Librarian',
       role: Role.LIBRARIAN,
     },
